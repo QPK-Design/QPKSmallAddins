@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<OutputType>Library</OutputType>
+		<RootNamespace>QPKSmallAddins</RootNamespace>
+		<AssemblyName>QPKSmallAddins</AssemblyName>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<UseWPF>false</UseWPF>
+		<Platforms>AnyCPU</Platforms>
+		<LangVersion>latest</LangVersion>
+
+		<!-- Revit deployment settings -->
+		<RevitYear>2025</RevitYear>
+		<RevitAddinRoot>C:\ProgramData\Autodesk\Revit\Addins\$(RevitYear)\</RevitAddinRoot>
+		<RevitAddinDir>$(RevitAddinRoot)QPK\</RevitAddinDir>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="RevitAPI">
+			<HintPath>C:\Program Files\Autodesk\Revit 2025\RevitAPI.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="RevitAPIUI">
+			<HintPath>C:\Program Files\Autodesk\Revit 2025\RevitAPIUI.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+	</ItemGroup>
+
+	<Target Name="DeployToRevit" AfterTargets="Build">
+		<!-- Create deployment folders -->
+		<MakeDir Directories="$(RevitAddinRoot)" />
+		<MakeDir Directories="$(RevitAddinDir)" />
+		<MakeDir Directories="$(RevitAddinDir)Resources" Condition="Exists('$(ProjectDir)Resources')" />
+
+		<ItemGroup>
+			<!-- Main outputs -->
+			<DeployDlls Include="$(OutDir)*.dll" />
+			<DeployPdbs Include="$(OutDir)*.pdb" Condition="'$(Configuration)' == 'Debug'" />
+
+			<!-- Optional resource files -->
+			<ResourceFiles Include="$(ProjectDir)Resources\**\*.*" Condition="Exists('$(ProjectDir)Resources')" />
+		</ItemGroup>
+
+		<!-- Copy DLL -->
+		<Copy SourceFiles="@(DeployDlls)"
+			  DestinationFolder="$(RevitAddinDir)"
+			  SkipUnchangedFiles="true" />
+
+		<!-- Copy PDB (debug only) -->
+		<Copy SourceFiles="@(DeployPdbs)"
+			  DestinationFolder="$(RevitAddinDir)"
+			  SkipUnchangedFiles="true"
+			  Condition="'@(DeployPdbs)' != ''" />
+
+		<!-- Copy addin manifest -->
+		<Copy SourceFiles="$(ProjectDir)QPKSmallAddins.addin"
+			  DestinationFiles="$(RevitAddinRoot)QPKSmallAddins.addin"
+			  SkipUnchangedFiles="true" />
+
+		<!-- Copy resources if present -->
+		<Copy SourceFiles="@(ResourceFiles)" DestinationFiles="@(ResourceFiles->'$(RevitAddinDir)Resources\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" Condition="'@(ResourceFiles)' != ''" />
+	</Target>
+
+	<Import Project="..\QPKSmallAddinsShared\QPKSmallAddinsShared.projitems" Label="Shared" Condition="Exists('..\QPKSmallAddinsShared\QPKSmallAddinsShared.projitems')" />
+
+</Project>

@@ -1,0 +1,19 @@
+# Build folders
+bin/
+obj/
+
+# User files
+*.user
+*.suo
+
+# VS folders
+.vs/
+
+# Debug files
+*.pdb
+
+# Revit deployment (DO NOT commit installed addins)
+C:\ProgramData\Autodesk\Revit\Addins\*
+
+# Logs
+*.log

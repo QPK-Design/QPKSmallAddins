@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+	<AddIn Type="Application">
+		<Name>QPKSmallAddins</Name>
+		<Assembly>C:\ProgramData\Autodesk\Revit\Addins\2025\QPK\QPKSmallAddins.dll</Assembly>
+		<AddInId>DBDE7161-3636-4F39-A29A-4064AEA0A898</AddInId>
+		<FullClassName>QPKSmallAddins.App</FullClassName>
+		<VendorId>QPK</VendorId>
+		<VendorDescription>QPK Design Tools</VendorDescription>
+	</AddIn>
+</RevitAddIns>
