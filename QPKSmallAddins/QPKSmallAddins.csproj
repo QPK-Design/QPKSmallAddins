@@ -6,9 +6,9 @@
 		<RootNamespace>QPKSmallAddins</RootNamespace>
 		<AssemblyName>QPKSmallAddins</AssemblyName>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<UseWPF>false</UseWPF>
-		<Platforms>AnyCPU</Platforms>
+		<Nullable>disable</Nullable>
+		<UseWPF>true</UseWPF>
+		<Platforms>AnyCPU;x64</Platforms>
 		<LangVersion>latest</LangVersion>
 
 		<!-- Revit deployment settings -->
@@ -20,11 +20,11 @@
 	<ItemGroup>
 		<Reference Include="RevitAPI">
 			<HintPath>C:\Program Files\Autodesk\Revit 2025\RevitAPI.dll</HintPath>
-			<Private>false</Private>
+			<Private>False</Private>
 		</Reference>
 		<Reference Include="RevitAPIUI">
 			<HintPath>C:\Program Files\Autodesk\Revit 2025\RevitAPIUI.dll</HintPath>
-			<Private>false</Private>
+			<Private>False</Private>
 		</Reference>
 	</ItemGroup>
 
@@ -44,20 +44,13 @@
 		</ItemGroup>
 
 		<!-- Copy DLL -->
-		<Copy SourceFiles="@(DeployDlls)"
-			  DestinationFolder="$(RevitAddinDir)"
-			  SkipUnchangedFiles="true" />
+		<Copy SourceFiles="@(DeployDlls)" DestinationFolder="$(RevitAddinDir)" SkipUnchangedFiles="true" />
 
 		<!-- Copy PDB (debug only) -->
-		<Copy SourceFiles="@(DeployPdbs)"
-			  DestinationFolder="$(RevitAddinDir)"
-			  SkipUnchangedFiles="true"
-			  Condition="'@(DeployPdbs)' != ''" />
+		<Copy SourceFiles="@(DeployPdbs)" DestinationFolder="$(RevitAddinDir)" SkipUnchangedFiles="true" Condition="'@(DeployPdbs)' != ''" />
 
 		<!-- Copy addin manifest -->
-		<Copy SourceFiles="$(ProjectDir)QPKSmallAddins.addin"
-			  DestinationFiles="$(RevitAddinRoot)QPKSmallAddins.addin"
-			  SkipUnchangedFiles="true" />
+		<Copy SourceFiles="$(ProjectDir)QPKSmallAddins.addin" DestinationFiles="$(RevitAddinRoot)QPKSmallAddins.addin" SkipUnchangedFiles="true" />
 
 		<!-- Copy resources if present -->
 		<Copy SourceFiles="@(ResourceFiles)" DestinationFiles="@(ResourceFiles->'$(RevitAddinDir)Resources\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" Condition="'@(ResourceFiles)' != ''" />

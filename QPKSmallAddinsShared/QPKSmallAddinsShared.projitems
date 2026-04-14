@@ -9,6 +9,16 @@
     <Import_RootNamespace>QPKSmallAddinsShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)SmallLinesWindow.xaml.cs">
+      <DependentUpon>SmallLinesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)SmallLinesFinder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WorksetPreloader.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)SmallLinesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>
